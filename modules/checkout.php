@@ -9,6 +9,29 @@ $system_administration = new System_Administration();
 $users = new Users();
 $books = new Books();
 
+if (!empty($_GET["cart_action"])) {
+    switch ($_GET["cart_action"]) {
+        case "remove":
+            if (!empty($_SESSION["cart_item"])) {
+                foreach ($_SESSION["cart_item"] as $k => $v) {
+                    
+//                    argDump($v['id']);
+//                    argDump($_SESSION["cart_item"]);
+//                    argDump("Index = " . $k . " and Value = " . $v);
+                    
+                    if ($_GET["code"] == $k)
+                        unset($_SESSION["cart_item"][$k]);
+                    if (empty($_SESSION["cart_item"]))
+                        unset($_SESSION["cart_item"]);
+                }
+            }
+            break;
+        case "empty":
+            unset($_SESSION["cart_item"]);
+            break;
+    }
+}
+
 if (isset($_SESSION["cart_number_of_items"]) AND $_SESSION["cart_number_of_items"] == 0) {
     ?>
     <div class="alert alert-block alert-error fade in">
@@ -40,30 +63,13 @@ if (!empty($_POST) AND $_POST['action'] == "checkout_transaction") {
     }
 }
 
-if (!empty($_GET["action"])) {
-    switch ($_GET["action"]) {
-        case "remove":
-            if (!empty($_SESSION["cart_item"])) {
-                foreach ($_SESSION["cart_item"] as $k => $v) {
-                    if ($_GET["code"] == $k)
-                        unset($_SESSION["cart_item"][$k]);
-                    if (empty($_SESSION["cart_item"]))
-                        unset($_SESSION["cart_item"]);
-                }
-            }
-            break;
-        case "empty":
-            unset($_SESSION["cart_item"]);
-            break;
-    }
-}
 ?>
 
 <div id="mainBody">
     <div class="container">
         <div class="row">
 
-            <div class="breadcrumb"> Shopping Cart <a id="btnEmpty" href="?checkout&action=empty">Empty Cart</a> <a href="?home" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a> </div>
+            <div class="breadcrumb"> Shopping Cart <a id="btnEmpty" href="?checkout&cart_action=empty">Empty Cart</a> <a href="?home" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a> </div>
 
             <?php
             if (isset($_SESSION["cart_item"])) {
@@ -87,7 +93,7 @@ if (!empty($_GET["action"])) {
                                 <td style="text-align:left;border-bottom:#F0F0F0 1px solid;"><?php echo $item["price"]; ?></td>
                                 <td style="text-align:right;border-bottom:#F0F0F0 1px solid;"><?php echo $item["quantity"]; ?></td>
                                 <td style="text-align:right;border-bottom:#F0F0F0 1px solid;"><?php echo $sub_item_total; ?></td>
-                                <td style="text-align:center;border-bottom:#F0F0F0 1px solid;"><a href="?checkout&action=remove&code=<?php echo $item["id"]; ?>" >Remove Item</a></td>
+                                <td style="text-align:center;border-bottom:#F0F0F0 1px solid;"><a href="?checkout&cart_action=remove&code=<?php echo $item["id"]; ?>" >Remove Item</a></td>
                             </tr>
                             <?php
                             $item_total += ($item["price"] * $item["quantity"]);

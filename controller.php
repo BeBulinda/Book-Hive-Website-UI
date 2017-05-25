@@ -10,6 +10,11 @@ if ( is_menu_set('home') != ""){
     set_title("Bookhive | Home");
 }
 
+if ( is_menu_set('home2') != ""){
+    $currentPage = WPATH . "modules/home2.php";
+    set_title("Bookhive | Home");
+}
+
 else if ( is_menu_set('login') != ""){
     $currentPage = WPATH . "modules/login.php";
     set_title("Bookhive | Login");

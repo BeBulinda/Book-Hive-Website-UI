@@ -64,7 +64,7 @@ date_default_timezone_set("Africa/Nairobi");
     <body>
 
         <?php
-        require_once "header.php";
+//        require_once "header.php";
 
 //        require_once "modules/menus/main_sidebar.php";
 
