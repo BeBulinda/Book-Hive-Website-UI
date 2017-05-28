@@ -61,7 +61,7 @@ if (!empty($_POST)) {
                 <span class="icon-bar"></span>
             </a>
             <div class="navbar-inner">
-                <a class="brand" href="?home"><img src="themes/images/bookhive_logo.svg" width="193" alt="Bookhive"/></a>
+                <a class="brand" href="?home"><img src="themes/images/bookhive_logo.svg" width="100" alt="Bookhive"/></a>
 
                 <form class="form-inline navbar-search" method="post">
                     <input type="hidden" name="action" value="search"/>
