@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/wamp/www/bookhive_web/modules/home.php</file>
-            <file>file:/C:/wamp/www/bookhive_web/modules/book_details.php</file>
-            <file>file:/C:/wamp/www/bookhive_web/core/template/banner.php</file>
-            <file>file:/C:/wamp/www/bookhive_web/modules/checkout.php</file>
-            <file>file:/C:/wamp/www/bookhive_web/core/template/layout.php</file>
-            <file>file:/C:/wamp/www/bookhive_web/hivecart/index.php</file>
-            <file>file:/C:/wamp/www/bookhive_web/controller.php</file>
-            <file>file:/C:/wamp/www/bookhive_web/modules/home2.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
