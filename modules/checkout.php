@@ -32,6 +32,9 @@ if (!empty($_GET["cart_action"])) {
     }
 }
 
+
+require_once "core/template/header.php";
+
 if (isset($_SESSION["cart_number_of_items"]) AND $_SESSION["cart_number_of_items"] == 0) {
     ?>
     <div class="alert alert-block alert-error fade in">

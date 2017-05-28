@@ -5,7 +5,7 @@ require_once WPATH . "modules/classes/Users.php";
 $users = new Users();
 $books = new Books();
 
-if (isset($_SESSION["transaction_status"])) {    
+if (isset($_SESSION["transaction_status"])) {
     if ($_SESSION["transaction_status"] == "success") {
         ?>
         <div class="alert alert-info fade in">
@@ -23,7 +23,7 @@ if (isset($_SESSION["transaction_status"])) {
     }
     unset($_SESSION['transaction_status']);
 }
-   
+
 if (!empty($_POST) AND $_POST['action'] == "add") {
     $productByCode = $books->fetchBookDetails($_POST["code"]);
     $itemArray = array($productByCode["id"] => array('id' => $productByCode["id"], 'title' => $productByCode["title"], 'price' => $productByCode["price"], 'quantity' => $_POST["quantity"]));
@@ -31,12 +31,12 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
     if (!empty($_SESSION["cart_item"])) {
         if (in_array($productByCode["id"], array_keys($_SESSION["cart_item"]))) {
             foreach ($_SESSION["cart_item"] as $k => $v) {
-//                
+//
 //                $id = $v['id'];
 //                argDump($id);
 //                argDump($id);
 //                exit();
-//                
+
                 if ($productByCode["id"] == $k) {
                     if (empty($_SESSION["cart_item"][$k]["quantity"])) {
                         $_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -73,9 +73,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-//                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $ecd_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
                         $ecd_books_data[] = $books->getAllLevelBooks("ECD");
                     }
@@ -91,7 +90,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -142,8 +141,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $primary_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
                         $primary_books_data[] = $books->getAllLevelBooks("PRIMARY LEVEL");
                     }
@@ -159,7 +158,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -210,8 +209,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $secondary_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
                         $secondary_books_data[] = $books->getAllLevelBooks("SECONDARY LEVEL");
                     }
@@ -227,7 +226,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -278,8 +277,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $adult_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
                         $adult_books_data[] = $books->getAllLevelBooks("ADULT READER");
                     }
@@ -295,7 +294,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {

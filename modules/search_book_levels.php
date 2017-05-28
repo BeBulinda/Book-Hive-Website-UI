@@ -4,8 +4,12 @@ require_once WPATH . "modules/classes/Books.php";
 require_once WPATH . "modules/classes/Users.php";
 $users = new Users();
 $books = new Books();
+//
+//argDump($_SESSION['searched_books']);
+//argDump($_SESSION['searched_books']);
+//exit();
 
-if (isset($_SESSION["transaction_status"])) {    
+if (isset($_SESSION["transaction_status"])) {
     if ($_SESSION["transaction_status"] == "success") {
         ?>
         <div class="alert alert-info fade in">
@@ -23,7 +27,7 @@ if (isset($_SESSION["transaction_status"])) {
     }
     unset($_SESSION['transaction_status']);
 }
-   
+
 if (!empty($_POST) AND $_POST['action'] == "add") {
     $productByCode = $books->fetchBookDetails($_POST["code"]);
     $itemArray = array($productByCode["id"] => array('id' => $productByCode["id"], 'title' => $productByCode["title"], 'price' => $productByCode["price"], 'quantity' => $_POST["quantity"]));
@@ -31,12 +35,12 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
     if (!empty($_SESSION["cart_item"])) {
         if (in_array($productByCode["id"], array_keys($_SESSION["cart_item"]))) {
             foreach ($_SESSION["cart_item"] as $k => $v) {
-//                
+//
 //                $id = $v['id'];
 //                argDump($id);
 //                argDump($id);
 //                exit();
-//                
+
                 if ($productByCode["id"] == $k) {
                     if (empty($_SESSION["cart_item"][$k]["quantity"])) {
                         $_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -58,7 +62,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
     <div class="container">
         <div class="row">
 
-            <div class="breadcrumb"><strong> ECD BOOKS </strong></div>
+            <div class="breadcrumb"><strong> ENGLISH BOOKS </strong></div>
 
             <table class="table table-bordered">
                 <thead>
@@ -73,25 +77,24 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-//                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $ecd_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $english_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $ecd_books_data[] = $books->getAllLevelBooks("ECD");
+                        $english_books_data[] = $books->getAllTypeBooks("ENGLISH READER");
                     }
-                    if (isset($_SESSION['no_ecd_records']) AND $_SESSION['no_ecd_records'] == true) {
+                    if (isset($_SESSION['no_english_records']) AND $_SESSION['no_english_records'] == true) {
                         ?>
                         <tr>
                             <td colspan="6" style="text-align:left"><strong>No book found in this category...</strong></td>
                         </tr>
                         <?php
-                        unset($_SESSION['no_ecd_records']);
-                    } else if (isset($_SESSION['yes_ecd_records']) AND $_SESSION['yes_ecd_records'] == true) {
-                        foreach ($ecd_books_data as $key => $value) {
+                        unset($_SESSION['no_english_records']);
+                    } else if (isset($_SESSION['yes_english_records']) AND $_SESSION['yes_english_records'] == true) {
+                        foreach ($english_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -121,13 +124,13 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             <?php
                         }
                     }
-                    unset($_SESSION['yes_ecd_records']);
+                    unset($_SESSION['yes_english_records']);
                 }
                 ?>
                 </tbody>
             </table>
 
-            <div class="breadcrumb"><strong> PRIMARY BOOKS </strong></div>
+            <div class="breadcrumb"><strong> KISWAHILI BOOKS </strong></div>
 
             <table class="table table-bordered">
                 <thead>
@@ -142,24 +145,24 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $primary_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $primary_books_data[] = $books->getAllLevelBooks("PRIMARY LEVEL");
+                        $kiswahili_books_data[] = $books->getAllTypeBooks("KISWAHILI READER");
                     }
-                    if (isset($_SESSION['no_primary_records']) AND $_SESSION['no_primary_records'] == true) {
+                    if (isset($_SESSION['no_kiswahili_records']) AND $_SESSION['no_kiswahili_records'] == true) {
                         ?>
                         <tr>
                             <td colspan="6" style="text-align:left"><strong>No book found in this category...</strong></td>
                         </tr>
                         <?php
-                        unset($_SESSION['no_primary_records']);
-                    } else if (isset($_SESSION['yes_primary_records']) AND $_SESSION['yes_primary_records'] == true) {
-                        foreach ($primary_books_data as $key => $value) {
+                        unset($_SESSION['no_kiswahili_records']);
+                    } else if (isset($_SESSION['yes_kiswahili_records']) AND $_SESSION['yes_kiswahili_records'] == true) {
+                        foreach ($kiswahili_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -189,13 +192,13 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             <?php
                         }
                     }
-                    unset($_SESSION['yes_primary_records']);
+                    unset($_SESSION['yes_kiswahili_records']);
                 }
                 ?>
                 </tbody>
             </table>
 
-            <div class="breadcrumb"><strong> SECONDARY BOOKS </strong></div>
+            <div class="breadcrumb"><strong> POETRY BOOKS </strong></div>
 
             <table class="table table-bordered">
                 <thead>
@@ -210,24 +213,24 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $secondary_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $secondary_books_data[] = $books->getAllLevelBooks("SECONDARY LEVEL");
+                        $poetry_books_data[] = $books->getAllTypeBooks("POETRY");
                     }
-                    if (isset($_SESSION['no_secondary_records']) AND $_SESSION['no_secondary_records'] == true) {
+                    if (isset($_SESSION['no_poetry_records']) AND $_SESSION['no_poetry_records'] == true) {
                         ?>
                         <tr>
                             <td colspan="6" style="text-align:left"><strong>No book found in this category...</strong></td>
                         </tr>
                         <?php
-                        unset($_SESSION['no_secondary_records']);
-                    } else if (isset($_SESSION['yes_secondary_records']) AND $_SESSION['yes_secondary_records'] == true) {
-                        foreach ($secondary_books_data as $key => $value) {
+                        unset($_SESSION['no_poetry_records']);
+                    } else if (isset($_SESSION['yes_poetry_records']) AND $_SESSION['yes_poetry_records'] == true) {
+                        foreach ($poetry_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -257,7 +260,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             <?php
                         }
                     }
-                    unset($_SESSION['yes_secondary_records']);
+                    unset($_SESSION['yes_poetry_records']);
                 }
                 ?>
                 </tbody>
@@ -278,24 +281,24 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                 </thead>
                 <tbody>
                     <?php
-                    if (!empty($_POST) AND $_POST['action'] == "filter_books") {
-                        $adult_books_data[] = $books->execute();
+                    if (isset($_SESSION['searched_books'])) {
+                        $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $adult_books_data[] = $books->getAllLevelBooks("ADULT READER");
+                        $lifestyle_books_data[] = $books->getAllTypeBooks("LIFESTYLE");
                     }
-                    if (isset($_SESSION['no_adult_records']) AND $_SESSION['no_adult_records'] == true) {
+                    if (isset($_SESSION['no_lifestyle_records']) AND $_SESSION['no_lifestyle_records'] == true) {
                         ?>
                         <tr>
                             <td colspan="6" style="text-align:left"><strong>No book found in this category...</strong></td>
                         </tr>
                         <?php
-                        unset($_SESSION['no_adult_records']);
-                    } else if (isset($_SESSION['yes_adult_records']) AND $_SESSION['yes_adult_records'] == true) {
-                        foreach ($adult_books_data as $key => $value) {
+                        unset($_SESSION['no_lifestyle_records']);
+                    } else if (isset($_SESSION['yes_lifestyle_records']) AND $_SESSION['yes_lifestyle_records'] == true) {
+                        foreach ($lifestyle_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -325,7 +328,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             <?php
                         }
                     }
-                    unset($_SESSION['yes_adult_records']);
+                    unset($_SESSION['yes_lifestyle_records']);
                 }
                 ?>
                 </tbody>

@@ -10,9 +10,24 @@ if ( is_menu_set('home') != ""){
     set_title("Bookhive | Home");
 }
 
-if ( is_menu_set('home2') != ""){
+else if ( is_menu_set('home2') != ""){
     $currentPage = WPATH . "modules/home2.php";
     set_title("Bookhive | Home");
+}
+
+else if ( is_menu_set('search_all_books') != ""){
+    $currentPage = WPATH . "modules/search_all_books.php";
+    set_title("Bookhive | Search");
+}
+
+else if ( is_menu_set('search_individual_books') != ""){
+    $currentPage = WPATH . "modules/search_individual_books.php";
+    set_title("Bookhive | Search");
+}
+
+else if ( is_menu_set('search_book_levels') != ""){
+    $currentPage = WPATH . "modules/search_book_levels.php";
+    set_title("Bookhive | Search");
 }
 
 else if ( is_menu_set('login') != ""){
