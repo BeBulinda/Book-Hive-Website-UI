@@ -48,8 +48,8 @@ if (!empty($_POST)) {
 <!--            <div class="span6">Welcome<strong> Maurice</strong></div>-->
             <div class="span12">
                 <div class="pull-right">
-                    <a href="?product_summary"><span class="btn btn-mini btn-primary"><i class="icon-shopping-cart icon-white"></i> [ <?php echo $_SESSION["cart_number_of_items"]; ?> ] Items in my cart </span> </a>
-                    <span class="btn btn-mini"> <?php echo "KShs. " . $_SESSION["cart_total_cost"]; ?> </span>		 
+                    <a href="?product_summary"><span class="btn btn-mini btn-primary" title="Check my Cart"><i class="icon-shopping-cart icon-white"></i> [ <?php echo $_SESSION["cart_number_of_items"]; ?> ] Items in my cart </span> </a>
+                    <span class="btn btn-mini" title="Total Cash Payable"> <?php echo "KShs. " . $_SESSION["cart_total_cost"]; ?> </span>		 
                 </div>
             </div>
         </div>
