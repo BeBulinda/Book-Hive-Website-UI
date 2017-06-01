@@ -71,7 +71,7 @@ class Books extends Database {
             $_SESSION['yes_searched_records'] = true;
             $values2 = array();
             foreach ($info as $data) {
-                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
+                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher_type" => $data['publisher_type'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
                 array_push($values2, $values);
             }
             return $values2;
@@ -93,7 +93,7 @@ class Books extends Database {
             $_SESSION['yes_records'] = true;
             $values2 = array();
             foreach ($info as $data) {
-                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
+                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher_type" => $data['publisher_type'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
                 array_push($values2, $values);
             }
             return json_encode($values2);
@@ -167,7 +167,47 @@ class Books extends Database {
             }
             $values2 = array();
             foreach ($info as $data) {
-                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
+                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher_type" => $data['publisher_type'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
+                array_push($values2, $values);
+            }
+            return json_encode($values2);
+        }
+    }
+    
+    public function getPublisherLevelBooks($publisher, $level) {
+
+        $level_code = $this->getBookLevelRefTypeId($level);
+
+        $sql = "SELECT * FROM books WHERE publisher=:publisher AND level_id=:level ORDER BY id ASC";
+        $stmt = $this->prepareQuery($sql);
+        $stmt->bindValue("level", $level_code);
+        $stmt->bindValue("publisher", $publisher);
+        $stmt->execute();
+        $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($info) == 0) {
+            if ($level === "ECD") {
+                $_SESSION['no_ecd_records'] = true;
+            } else if ($level === "PRIMARY LEVEL") {
+                $_SESSION['no_primary_records'] = true;
+            } else if ($level === "SECONDARY LEVEL") {
+                $_SESSION['no_secondary_records'] = true;
+            } else if ($level === "ADULT READER") {
+                $_SESSION['no_adult_records'] = true;
+            }
+        } else {
+            if ($level === "ECD") {
+                $_SESSION['yes_ecd_records'] = true;
+            } else if ($level === "PRIMARY LEVEL") {
+                $_SESSION['yes_primary_records'] = true;
+            } else if ($level === "SECONDARY LEVEL") {
+                $_SESSION['yes_secondary_records'] = true;
+            } else if ($level === "ADULT READER") {
+                $_SESSION['yes_adult_records'] = true;
+            }
+            $values2 = array();
+            foreach ($info as $data) {
+                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher_type" => $data['publisher_type'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
                 array_push($values2, $values);
             }
             return json_encode($values2);
@@ -206,7 +246,7 @@ class Books extends Database {
             }
             $values2 = array();
             foreach ($info as $data) {
-                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
+                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher_type" => $data['publisher_type'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
                 array_push($values2, $values);
             }
             return json_encode($values2);
@@ -225,7 +265,7 @@ class Books extends Database {
             $_SESSION['yes_records'] = true;
             $values2 = array();
             foreach ($info as $data) {
-                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
+                $values = array("id" => $data['id'], "title" => $data['title'], "description" => $data['description'], "publisher_type" => $data['publisher_type'], "publisher" => $data['publisher'], "type_id" => $data['type_id'], "level_id" => $data['level_id'], "price" => $data['price'], "cover_photo" => $data['cover_photo'], "status" => $data['status'], "createdat" => $data['createdat'], "createdby" => $data['createdby'], "lastmodifiedat" => $data['lastmodifiedat'], "lastmodifiedby" => $data['lastmodifiedby']);
                 array_push($values2, $values);
             }
             return json_encode($values2);

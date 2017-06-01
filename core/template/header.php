@@ -26,6 +26,8 @@ if (!empty($_POST)) {
             App::redirectTo("?register_individual_user");
         } else if ($_POST['user_type'] === "book_seller") {
             App::redirectTo("?register_book_seller");
+        } else if ($_POST['user_type'] === "self_publisher") {
+            App::redirectTo("?register_self_publisher");
         }
     } else if ($_POST['action'] == "search") {
         $searched_books[] = $books->getAllSearchedBooks($_POST['search_by'], $_POST['search_value']);
@@ -86,8 +88,8 @@ if (!empty($_POST)) {
 
                 <form class="form-inline navbar-search" method="post">
                     <input type="hidden" name="action" value="search"/>
-                    <input id="srchFld" name="search_value" class="srchTxt" type="text" />
-                    <select name="search_by" class="srchTxt">
+                    <input id="srchFld" name="search_value" class="srchTxt" type="text" width="160" />
+<!--                    <select name="search_by" class="srchTxt">
                         <option value="none">Filter By:</option>
                         <option value="all">All</option>
                         <option value="publishers">Publishers </option>
@@ -96,9 +98,9 @@ if (!empty($_POST)) {
                         <option value="isbn_numbers">ISBN Numbers </option>
                         <option value="book_types">Book Types </option>
                         <option value="book_levels">Book Levels</option>
-                    </select> 
+                    </select> -->
 
-                    <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
+                    <!--<button type="submit" id="submitButton" class="btn btn-primary">Go</button>-->
                 </form>
 
                 <!--                <form class="form-inline navbar-search" method="post">
@@ -112,7 +114,8 @@ if (!empty($_POST)) {
                                     <button type="submit" id="submitButton" class="btn btn-primary">Go</button>
                                 </form>-->
                 <ul id="topMenu" class="nav pull-right">
-                    <!--<li class=""><a href="?report_piracy">Verify Book</a></li>-->
+                    <li class=""><a href="?publisher_books&publisher=2">Publishers</a></li>
+                    <li class=""><a href="?verify_book">Verify Book</a></li>
                     <li class=""><a href="?report_piracy">Report Piracy</a></li>
                     <li class="">
                         <a href="#register" data-toggle="modal" style="padding-right:0">Register</a>
@@ -130,6 +133,7 @@ if (!empty($_POST)) {
                                             <select name="user_type">
                                                 <option value="individual_user">Individual User</option>
                                                 <option value="book_seller">Book Seller</option>
+                                                <option value="self_publisher">Self Publisher</option>
                                             </select>
                                         </div>
                                     </div>		

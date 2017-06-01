@@ -5,7 +5,7 @@ require_once WPATH . "modules/classes/Users.php";
 $users = new Users();
 $books = new Books();
 
-if (isset($_SESSION["transaction_status"])) {    
+if (isset($_SESSION["transaction_status"])) {
     if ($_SESSION["transaction_status"] == "success") {
         ?>
         <div class="alert alert-info fade in">
@@ -23,7 +23,7 @@ if (isset($_SESSION["transaction_status"])) {
     }
     unset($_SESSION['transaction_status']);
 }
-   
+
 if (!empty($_POST) AND $_POST['action'] == "add") {
     $productByCode = $books->fetchBookDetails($_POST["code"]);
     $itemArray = array($productByCode["id"] => array('id' => $productByCode["id"], 'title' => $productByCode["title"], 'price' => $productByCode["price"], 'quantity' => $_POST["quantity"]));
@@ -31,12 +31,6 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
     if (!empty($_SESSION["cart_item"])) {
         if (in_array($productByCode["id"], array_keys($_SESSION["cart_item"]))) {
             foreach ($_SESSION["cart_item"] as $k => $v) {
-//                
-//                $id = $v['id'];
-//                argDump($id);
-//                argDump($id);
-//                exit();
-//                
                 if ($productByCode["id"] == $k) {
                     if (empty($_SESSION["cart_item"][$k]["quantity"])) {
                         $_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -90,8 +84,17 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                         foreach ($ecd_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
-                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+
+                                if ($value2['publisher_type'] == "COMPANY") {
+                                    $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['company_name'];
+                                } else if ($value2['publisher_type'] == "SELF") {
+                                    $publisher_details = $users->fetchSelfPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['firstname'] . " " . $publisher_details['lastname'];
+                                }
+
+//                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -107,8 +110,15 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                 <input type="hidden" name="action" value="add"/>
                                 <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
-                                <td> <a href="?book_details&code=<?php echo $value2['id']; ?>"> <img width="50" src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/> <?php echo $value2['title']; ?> </a></td>
-                                <td><?php echo $publisher_details['company_name']; ?></td>
+                                <td> <a href="?book_details&code=<?php echo $value2['id']; ?>" 
+                                        title="
+                                        Title: <?php echo $value2['title'] . "\n"; ?>
+                                        Author: <?php echo $value2['publisher'] . "\n"; ?>
+                                        Publisher: <?php echo $value2['publisher'] . "\n"; ?>
+                                        Year of publication: <?php echo $value2['publisher'] . "\n"; ?>
+                                        Price: <?php echo $value2['price'] . "\n"; ?>
+                                        Description: <?php echo $value2['description'] . "\n"; ?>"> <img width="50" src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/> <?php echo $value2['title']; ?> </a></td>
+                                <td><?php echo $publisher_name; ?></td>
                                 <td><?php echo $value2['price']; ?></td>
                                 <td>
                                     <div class="input-append"><input type="number" name="quantity" class="span1" style="max-width:34px" value="0" size="16"><button type="submit" class="btn btn-danger"><i class="icon-remove icon-white"></i></button></div>
@@ -158,8 +168,16 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                         foreach ($primary_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
-                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+//                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
                                 
+                                if ($value2['publisher_type'] == "COMPANY") {
+                                    $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['company_name'];
+                                } else if ($value2['publisher_type'] == "SELF") {
+                                    $publisher_details = $users->fetchSelfPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['firstname'] . " " . $publisher_details['lastname'];
+                                }
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -176,7 +194,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                 <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
                                 <td> <a href="?book_details&code=<?php echo $value2['id']; ?>"> <img width="50" src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/> <?php echo $value2['title']; ?> </a></td>
-                                <td><?php echo $publisher_details['company_name']; ?></td>
+                                <td><?php echo $publisher_name; ?></td>
                                 <td><?php echo $value2['price']; ?></td>
                                 <td>
                                     <div class="input-append"><input type="number" name="quantity" class="span1" style="max-width:34px" value="0" size="16"><button type="submit" class="btn btn-danger"><i class="icon-remove icon-white"></i></button></div>
@@ -226,8 +244,16 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                         foreach ($secondary_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
-                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+//                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
                                 
+                                if ($value2['publisher_type'] == "COMPANY") {
+                                    $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['company_name'];
+                                } else if ($value2['publisher_type'] == "SELF") {
+                                    $publisher_details = $users->fetchSelfPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['firstname'] . " " . $publisher_details['lastname'];
+                                }
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -244,7 +270,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                 <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
                                 <td> <a href="?book_details&code=<?php echo $value2['id']; ?>"> <img width="50" src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/> <?php echo $value2['title']; ?> </a></td>
-                                <td><?php echo $publisher_details['company_name']; ?></td>
+                                <td><?php echo $publisher_name; ?></td>
                                 <td><?php echo $value2['price']; ?></td>
                                 <td>
                                     <div class="input-append"><input type="number" name="quantity" class="span1" style="max-width:34px" value="0" size="16"><button type="submit" class="btn btn-danger"><i class="icon-remove icon-white"></i></button></div>
@@ -294,8 +320,16 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                         foreach ($adult_books_data as $key => $value) {
                             $inner_array[$key] = json_decode($value, true); // this will give key val pair array
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
-                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
-                                
+//                                $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+
+                                if ($value2['publisher_type'] == "COMPANY") {
+                                    $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['company_name'];
+                                } else if ($value2['publisher_type'] == "SELF") {
+                                    $publisher_details = $users->fetchSelfPublisherDetails($value2['publisher']);
+                                    $publisher_name = $publisher_details['firstname'] . " " . $publisher_details['lastname'];
+                                }
+
                                 if ($value2['level_id'] == 1) {
                                     $location = 'modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
@@ -312,7 +346,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                 <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
                                 <td> <a href="?book_details&code=<?php echo $value2['id']; ?>"> <img width="50" src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/> <?php echo $value2['title']; ?> </a></td>
-                                <td><?php echo $publisher_details['company_name']; ?></td>
+                                <td><?php echo $publisher_name; ?></td>
                                 <td><?php echo $value2['price']; ?></td>
                                 <td>
                                     <div class="input-append"><input type="number" name="quantity" class="span1" style="max-width:34px" value="0" size="16"><button type="submit" class="btn btn-danger"><i class="icon-remove icon-white"></i></button></div>

@@ -28,6 +28,8 @@ class Users extends Database {
             return $this->addIndividualUser();
         } else if ($_POST['action'] == "edit_individual_user") {
             return $this->editIndividualUser();
+        } else if ($_POST['action'] == "add_self_publisher") {
+            return $this->addSelfPublisher();
         } 
         
         
@@ -55,6 +57,15 @@ class Users extends Database {
     
     public function fetchPublisherDetails($code) {
         $sql = "SELECT * FROM publishers WHERE id=:code";
+        $stmt = $this->prepareQuery($sql);
+        $stmt->bindParam("code", $code);
+        $stmt->execute();
+        $info = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $info[0];
+    }
+
+    public function fetchSelfPublisherDetails($code) {
+        $sql = "SELECT * FROM self_publishers WHERE id=:code";
         $stmt = $this->prepareQuery($sql);
         $stmt->bindParam("code", $code);
         $stmt->execute();
@@ -174,6 +185,52 @@ class Users extends Database {
         return true;
     }
 
+    private function addSelfPublisher() {
+        $createdby = "WEBSITE USER";
+        $individual_user_id = $this->getNextSelfPublisherId();
+        $user_type = 'SELF PUBLISHER';
+
+        //individual details
+        $sql = "INSERT INTO self_publishers (firstname, lastname, gender, idnumber, createdby, lastmodifiedby)"
+                . " VALUES (:firstname, :lastname, :gender, :idnumber, :createdby, :lastmodifiedby)";
+        $stmt = $this->prepareQuery($sql);
+        $stmt->bindValue("firstname", strtoupper($_POST['firstname']));
+        $stmt->bindValue("lastname", strtoupper($_POST['lastname']));
+        $stmt->bindValue("gender", strtoupper($_POST['gender']));
+        $stmt->bindValue("idnumber", strtoupper($_POST['idnumber']));
+        $stmt->bindValue("createdby", $createdby);
+        $stmt->bindValue("lastmodifiedby", $createdby); //  echo $_SESSION['userid']);
+        $stmt->execute();
+
+        //individual contact details
+        $sql = "INSERT INTO contacts (reference_type, reference_id, phone_number, email, lastmodifiedby)"
+                . " VALUES (:reference_type, :reference_id, :phone_number, :email, :lastmodifiedby)";
+        $stmt = $this->prepareQuery($sql);
+        $stmt->bindValue("reference_type", strtoupper($user_type));
+        $stmt->bindValue("reference_id", $individual_user_id);
+        $stmt->bindValue("phone_number", strtoupper($_POST['phone_number']));
+        $stmt->bindValue("email", strtoupper($_POST['email']));
+        $stmt->bindValue("lastmodifiedby", $createdby);
+        $stmt->execute();
+
+        //        $sql_userlogs = "INSERT INTO user_logs (ref_type, ref_id, username, password, lastmodifiedat, lastmodifiedby)"
+//                . " VALUES (:ref_type, :ref_id, :username, :password, :lastmodifiedat, :lastmodifiedby)";
+//
+//        $stmt_userlogs = $this->prepareQuery($sql_userlogs);
+//        $stmt_userlogs->bindValue("ref_type", strtoupper($_POST['user_type']));
+//        $stmt_userlogs->bindValue("ref_id", $user_id);
+//        $stmt_userlogs->bindValue("username", $_POST['firstname']);
+//        $stmt_userlogs->bindValue("password", sha1($_POST['lastname']));
+//        $stmt_userlogs->bindValue("lastmodifiedby", $_POST['createdby']); //  echo $_SESSION['userid']);
+//        $stmt_userlogs->bindValue("lastmodifiedat", date("Y-m-d H:i:s"));
+//        $stmt_userlogs->execute();
+//
+//        $this->addUserToRole(strtoupper($_POST['user_type']), $user_id);
+//        $this->addPrivilegesToUser(strtoupper($_POST['user_type']), $user_id);
+
+        return true;
+    }
+
     public function getNextPublisherId() {
         $publisher_id = $this->executeQuery("SELECT max(id) as publisher_id_max FROM publishers");
         $publisher_id = $publisher_id[0]['publisher_id_max'] + 1;
@@ -190,6 +247,12 @@ class Users extends Database {
         $individual_user_id = $this->executeQuery("SELECT max(id) as individual_user_id_max FROM individual_users");
         $individual_user_id = $individual_user_id[0]['individual_user_id_max'] + 1;
         return strtoupper($individual_user_id);
+    }
+
+    public function getNextSelfPublisherId() {
+        $self_publisher_id = $this->executeQuery("SELECT max(id) as self_publisher_id_max FROM self_publishers");
+        $self_publisher_id = $self_publisher_id[0]['self_publisher_id_max'] + 1;
+        return strtoupper($self_publisher_id);
     }
 
     public function getNextGuestUserId() {
@@ -517,7 +580,7 @@ class Users extends Database {
         while ($row = $stmt->fetch()) {
             if (is_null($currentGroup)) {
                 $currentGroup = $row['company_name'];
-                $html .= "<option value=\"0\" selected>Select Publisher</option>";
+//                $html .= "<option value=\"0\" selected>Select Publisher</option>";
                 $html .= "<option value=\"111111111111\">ALL PUBLISHERS</option>";
                 $html .= "<option value=\"{$row['id']}\">{$row['company_name']}</option>";
             } else {

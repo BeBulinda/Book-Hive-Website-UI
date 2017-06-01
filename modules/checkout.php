@@ -14,11 +14,11 @@ if (!empty($_GET["cart_action"])) {
         case "remove":
             if (!empty($_SESSION["cart_item"])) {
                 foreach ($_SESSION["cart_item"] as $k => $v) {
-                    
+
 //                    argDump($v['id']);
 //                    argDump($_SESSION["cart_item"]);
 //                    argDump("Index = " . $k . " and Value = " . $v);
-                    
+
                     if ($_GET["code"] == $k)
                         unset($_SESSION["cart_item"][$k]);
                     if (empty($_SESSION["cart_item"]))
@@ -48,6 +48,7 @@ if (!empty($_POST) AND $_POST['action'] == "checkout_transaction") {
     if (isset($_SESSION["cart_item"])) {
         $_SESSION["transactedby"] = 01; // $_SESSION["user_id"];
         $_SESSION["payment_option"] = $_POST["payment_method"];
+        $_SESSION["book_version"] = $_POST["book_version"];
         $_SESSION["transaction_id"] = $transactions->getTransactionId($_SESSION["payment_option"], $_SESSION["transactedby"], $_SESSION["cart_total_cost"]);
         $transaction = $transactions->addTransaction();
         if (is_bool($transaction) && $transaction == true) {
@@ -65,7 +66,6 @@ if (!empty($_POST) AND $_POST['action'] == "checkout_transaction") {
         App::redirectTo("?home");
     }
 }
-
 ?>
 
 <div id="mainBody">
@@ -159,6 +159,15 @@ if (!empty($_POST) AND $_POST['action'] == "checkout_transaction") {
                     <div class="controls">
                         <select name="payment_method">
                             <?php echo $system_administration->getPaymentOptions(); ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="book_version">Book Version<sup>*</sup></label>
+                    <div class="controls">
+                        <select name="book_version">
+                            <option value="hard_copy">Physical/Hard Copy</option>
+                            <option value="soft_copy">Digital/Soft Copy</option>
                         </select>
                     </div>
                 </div>

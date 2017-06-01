@@ -36,24 +36,27 @@ class Transactions extends Database {
     }
 
     public function addTransactionDetails() {
-        $sql = "INSERT INTO transaction_details (transaction_id, book_id, quantity, unit_price)"
-                . " VALUES (:transaction_id, :book_id, :quantity, :unit_price)";
+        $sql = "INSERT INTO transaction_details (transaction_id, book_id, quantity, unit_price, book_version)"
+                . " VALUES (:transaction_id, :book_id, :quantity, :unit_price, :book_version)";
         $stmt = $this->prepareQuery($sql);
         $stmt->bindValue("transaction_id", $_SESSION["transaction_id"]);
         $stmt->bindValue("book_id", $_SESSION["book_id"]);
         $stmt->bindValue("quantity", $_SESSION["quantity"]);
         $stmt->bindValue("unit_price", $_SESSION['unit_price']);
+        $stmt->bindValue("book_version", $_SESSION['book_version']);
         $stmt->execute();
         return true;
     }
 
     private function addPiracyReport() {
-        $sql = "INSERT INTO piracy_reports (reporter_type, reported_by, seller_name, book_photo, receipt_photo, description)"
-                . " VALUES (:reporter_type, :reported_by, :seller_name, :book_photo, :receipt_photo, :description)";
+        $sql = "INSERT INTO piracy_reports (reporter_type, reported_by, seller_type, seller_name, book_title, book_photo, receipt_photo, description)"
+                . " VALUES (:reporter_type, :reported_by, :seller_type, :seller_name, :book_title, :book_photo, :receipt_photo, :description)";
         $stmt = $this->prepareQuery($sql);
         $stmt->bindValue("reporter_type", strtoupper($_POST['reporter_type']));
         $stmt->bindValue("reported_by", strtoupper($_POST['reported_by']));
+        $stmt->bindValue("seller_type", strtoupper($_POST['seller_type']));
         $stmt->bindValue("seller_name", strtoupper($_POST['seller_name']));
+        $stmt->bindValue("book_title", strtoupper($_POST['book_title']));
         $stmt->bindValue("book_photo", $_SESSION['book_photo']);
         $stmt->bindValue("receipt_photo", $_SESSION['receipt_photo']);
         $stmt->bindValue("description", strtoupper($_POST['description']));
