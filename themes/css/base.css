@@ -79,29 +79,47 @@
 @media (min-width: 1200px) {  }
 /* Portrait tablet to landscape and desktop */
 @media (min-width: 768px) and (max-width: 979px) {
-.navbar .brand {float: none;text-align: center;}
-#sideManu,#topMenu{height:0}
-.navbar-search {margin-top: 8px;width: 100%;float: none;}
-#topMenu{height: auto;float: none;}
-#topMenu li{float: none;}
-.navbar .nav > li > a {border-top:1px solid #666; padding:0}
-#sideManu,#topMenu{height:0}
+    .navbar .brand {float: none;text-align: center;}
+    #sideManu,#topMenu{height:0}
+    .navbar-search {margin-top: 8px;width: 100%;float: none;}
+    #topMenu{height: auto;float: none;}
+    #topMenu li{float: none;}
+    .navbar .nav > li > a {border-top:1px solid #666; padding:0}
+    #sideManu,#topMenu{height:0}
 }
 /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
-.navbar .brand {float: none;text-align: center;}
-#header, #carouselBlk{margin: 0 -20px;}
-#sideManu,#topMenu{height:0}
-.navbar-search {margin-top: 8px;width: 100%;float: none;}
-#topMenu{height: auto;float: none;}
-#topMenu li{float: none;}
-.navbar .nav > li > a {border-top:1px solid #666; padding:0}
- }
+    .navbar .brand {float: none;text-align: center;}
+    #header, #carouselBlk{margin: 0 -20px;}
+    #sideManu,#topMenu{height:0}
+    .navbar-search {margin-top: 8px;width: 100%;float: none;}
+    #topMenu{height: auto;float: none;}
+    #topMenu li{float: none;}
+    .navbar .nav > li > a {border-top:1px solid #666; padding:0}
+}
 /* Landscape phones and down */
 @media (max-width: 480px) {
-#header, #carouselBlk{margin: 0 -20px;}
-#sideManu, #topMenu{height:0}
-#topMenu{height: auto;float: none;}
-#topMenu li{float: none;}
-.navbar .nav > li > a {border-top:1px solid #666; padding:0}
+    #header, #carouselBlk{margin: 0 -20px;}
+    #sideManu, #topMenu{height:0}
+    #topMenu{height: auto;float: none;}
+    #topMenu li{float: none;}
+    .navbar .nav > li > a {border-top:1px solid #666; padding:0}
+}
+a.tooltipss {
+    position: relative;
+}
+
+a.tooltips span {
+    display: none;    
+}
+
+a.tooltips:hover span, a.tooltips:focus span {
+    display:block;
+    position:absolute;
+    top:1em;
+    left:1.5em;
+    padding: 0.2em 0.6em;
+    border:1px solid #996633;
+    background-color:#FFFF66;
+    color:#000;
 }
