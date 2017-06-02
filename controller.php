@@ -10,9 +10,24 @@ if ( is_menu_set('home') != ""){
     set_title("Bookhive | Home");
 }
 
-if ( is_menu_set('home2') != ""){
+else if ( is_menu_set('home2') != ""){
     $currentPage = WPATH . "modules/home2.php";
     set_title("Bookhive | Home");
+}
+
+else if ( is_menu_set('search_all_books') != ""){
+    $currentPage = WPATH . "modules/search_all_books.php";
+    set_title("Bookhive | Search");
+}
+
+else if ( is_menu_set('search_individual_books') != ""){
+    $currentPage = WPATH . "modules/search_individual_books.php";
+    set_title("Bookhive | Search");
+}
+
+else if ( is_menu_set('search_book_levels') != ""){
+    $currentPage = WPATH . "modules/search_book_levels.php";
+    set_title("Bookhive | Search");
 }
 
 else if ( is_menu_set('login') != ""){
@@ -20,9 +35,14 @@ else if ( is_menu_set('login') != ""){
     set_title("Bookhive | Login");
 }
 
-else if ( is_menu_set('register') != ""){
-    $currentPage = WPATH . "modules/register.php";
-    set_title("Bookhive | Registration");
+else if ( is_menu_set('verify_book') != ""){
+    $currentPage = WPATH . "modules/verify_book.php";
+    set_title("Bookhive | Verify Book");
+}
+
+else if ( is_menu_set('register_self_publisher') != ""){
+    $currentPage = WPATH . "modules/register_self_publisher.php";
+    set_title("Bookhive | Self Publisher Registration");
 }
 
 else if ( is_menu_set('register_book_seller') != ""){
@@ -65,36 +85,6 @@ else if ( is_menu_set('publisher_books') != ""){
     set_title("Bookhive | Publisher Books");
 }
 
-else if ( is_menu_set('ecd_books') != ""){
-    $currentPage = WPATH . "modules/ecd_books.php";
-    set_title("Bookhive | ECD Books");
-}
-
-else if ( is_menu_set('primary_books') != ""){
-    $currentPage = WPATH . "modules/primary_books.php";
-    set_title("Bookhive | Primary Books");
-}
-
-else if ( is_menu_set('secondary_books') != ""){
-    $currentPage = WPATH . "modules/secondary_books.php";
-    set_title("Bookhive | Secondary Books");
-}
-
-else if ( is_menu_set('poetry_books') != ""){
-    $currentPage = WPATH . "modules/poetry_books.php";
-    set_title("Bookhive | Poetry Books");
-}
-
-else if ( is_menu_set('lifestyle_books') != ""){
-    $currentPage = WPATH . "modules/lifestyle_books.php";
-    set_title("Bookhive | Lifestyle Books");
-}
-
-else if ( is_menu_set('ecd_books') != ""){
-    $currentPage = WPATH . "modules/ecd_books.php";
-    set_title("Bookhive | ECD Books");
-}
-
 else if ( is_menu_set('book_details') != ""){
     $currentPage = WPATH . "modules/book_details.php";
     set_title("Bookhive | Book Details");
@@ -104,6 +94,46 @@ else if ( is_menu_set('contact_us') != ""){
     $currentPage = WPATH . "modules/contact_us.php";
     set_title("Bookhive | Contact Us");
 }
+
+
+
+
+
+
+
+
+
+
+
+//else if ( is_menu_set('ecd_books') != ""){
+//    $currentPage = WPATH . "modules/ecd_books.php";
+//    set_title("Bookhive | ECD Books");
+//}
+//
+//else if ( is_menu_set('primary_books') != ""){
+//    $currentPage = WPATH . "modules/primary_books.php";
+//    set_title("Bookhive | Primary Books");
+//}
+//
+//else if ( is_menu_set('secondary_books') != ""){
+//    $currentPage = WPATH . "modules/secondary_books.php";
+//    set_title("Bookhive | Secondary Books");
+//}
+//
+//else if ( is_menu_set('poetry_books') != ""){
+//    $currentPage = WPATH . "modules/poetry_books.php";
+//    set_title("Bookhive | Poetry Books");
+//}
+//
+//else if ( is_menu_set('lifestyle_books') != ""){
+//    $currentPage = WPATH . "modules/lifestyle_books.php";
+//    set_title("Bookhive | Lifestyle Books");
+//}
+//
+//else if ( is_menu_set('ecd_books') != ""){
+//    $currentPage = WPATH . "modules/ecd_books.php";
+//    set_title("Bookhive | ECD Books");
+//}
 
 else if (!empty($_GET)) {
     App::redirectTo("?");

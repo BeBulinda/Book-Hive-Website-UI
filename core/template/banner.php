@@ -3,8 +3,8 @@
         <div class="carousel-inner">
             <div class="item active">
                 <div class="container">
-                    <a href="?register" class="tooltips">
-                        <img  style="width:100%" src="themes/images/carousel/1.png" alt="special offers"/>
+                    <a href="?register">
+                        <img class="tooltips" style="width:100%" src="themes/images/carousel/1.png" alt="special offers"/>
                         <span>
                             <b></b>
                             Title: ........

@@ -1,47 +1,46 @@
 ﻿<?php
+//if (!App::isLoggedIn()) {
+//    App::redirectTo("?");
+//}
 require_once WPATH . "modules/classes/Users.php";
 $users = new Users();
-$ref_type = $_GET['ref_type'];  //If Publisher, Book seller etc
+
+require_once "core/template/header.php"; 
 
 if (!empty($_POST)) {
-    $_SESSION['admin_firstname'] = $_POST['firstname'];
-    $_SESSION['admin_lastname'] = $_POST['lastname'];
-    $_SESSION['admin_idnumber'] = $_POST['idnumber'];
-    $_SESSION['admin_phone_number'] = $_POST['phone_number'];
-    $_SESSION['admin_email'] = $_POST['email'];
-
-//    if ($ref_type == "PUBLISHER") {
-//        $success = $users->execute();
-//        if (is_bool($success) && $success == true) {
-//            $_SESSION['add_success'] = true;
-//        }
-//        App::redirectTo("?home");
-//    } else 
-
-    if ($ref_type == "BOOK SELLER") {
-        $success = $users->execute();
-        if (is_bool($success) && $success == true) {
-            $_SESSION['added_book_seller'] = true;
-        } else {
-            $_SESSION['added_book_seller'] = false;
-        }
-        App::redirectTo("?register_book_seller");
+    $success = $users->execute();
+    if (is_bool($success) && $success == true) {
+        $_SESSION['add_success'] = true;
+        ?>
+        <div class="alert alert-info fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Your registration was successful. Please check your email for login credentials.</strong> 
+        </div>
+        <?php
+    } else {
+        ?>
+        <div class="alert alert-block alert-error fade in">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>Your registration was unsuccessful. Please try again.</strong>
+        </div>
+        <?php
     }
+//    App::redirectTo("?home");
 }
 ?>
 
-<?php require_once "core/template/header.php"; ?>
+<?php // require_once "core/template/header.php"; ?>
 <div id="mainBody">
     <div class="container">
         <div class="row">
             <ul class="breadcrumb">
                 <li><a href="?home">Home</a> <span class="divider">/</span></li>
-                <li class="active">Administrator Registration</li>
+                <li class="active">Publisher Registration</li>
             </ul>
-            <h3> Administrator Registration</h3>	
+            <h3> Publisher Registration</h3>	
             <div class="well">
-                <form class="form-horizontal" method="post">                    
-                    <input type="hidden" name="action" value="register_book_seller"/>
+                <form class="form-horizontal" method="post">   
+                    <input type="hidden" name="action" value="add_self_publisher"/> 
                     <h5>Personal Information</h5>
                     <div class="control-group">
                         <label class="control-label" for="firstname">First name <sup>*</sup></label>
@@ -59,6 +58,15 @@ if (!empty($_POST)) {
                         <label class="control-label" for="idnumber">ID/Passport Number <sup>*</sup></label>
                         <div class="controls">
                             <input type="text" name="idnumber" id="idnumber" placeholder="ID/Passport Number">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="gender">Gender<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="gender" id="gender">
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
                         </div>
                     </div>
                     <div class="control-group">

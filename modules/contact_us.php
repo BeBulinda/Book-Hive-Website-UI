@@ -23,6 +23,7 @@ if (!empty($_POST)) {
 }
 ?>
 ﻿
+<?php require_once "core/template/header.php"; ?>
 <div id="mainBody">
     <div class="container">
         <hr class="soften">

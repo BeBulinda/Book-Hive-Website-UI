@@ -4,7 +4,6 @@ require_once WPATH . "modules/classes/Books.php";
 require_once WPATH . "modules/classes/Users.php";
 $users = new Users();
 $books = new Books();
-$publisher = $_GET['publisher'];
 
 if (isset($_SESSION["transaction_status"])) {
     if ($_SESSION["transaction_status"] == "success") {
@@ -32,6 +31,12 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
     if (!empty($_SESSION["cart_item"])) {
         if (in_array($productByCode["id"], array_keys($_SESSION["cart_item"]))) {
             foreach ($_SESSION["cart_item"] as $k => $v) {
+//
+//                $id = $v['id'];
+//                argDump($id);
+//                argDump($id);
+//                exit();
+
                 if ($productByCode["id"] == $k) {
                     if (empty($_SESSION["cart_item"][$k]["quantity"])) {
                         $_SESSION["cart_item"][$k]["quantity"] = 0;
@@ -71,7 +76,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                     if (isset($_SESSION['searched_books'])) {
                         $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $ecd_books_data[] = $books->getPublisherLevelBooks($publisher, "ECD");
+                        $ecd_books_data[] = $books->getAllLevelBooks("ECD");
                     }
                     if (isset($_SESSION['no_ecd_records']) AND $_SESSION['no_ecd_records'] == true) {
                         ?>
@@ -139,7 +144,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                     if (isset($_SESSION['searched_books'])) {
                         $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $primary_books_data[] = $books->getPublisherLevelBooks($publisher, "PRIMARY LEVEL");
+                        $primary_books_data[] = $books->getAllLevelBooks("PRIMARY LEVEL");
                     }
                     if (isset($_SESSION['no_primary_records']) AND $_SESSION['no_primary_records'] == true) {
                         ?>
@@ -207,7 +212,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                     if (isset($_SESSION['searched_books'])) {
                         $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $secondary_books_data[] = $books->getPublisherLevelBooks($publisher, "SECONDARY LEVEL");
+                        $secondary_books_data[] = $books->getAllLevelBooks("SECONDARY LEVEL");
                     }
                     if (isset($_SESSION['no_secondary_records']) AND $_SESSION['no_secondary_records'] == true) {
                         ?>
@@ -275,7 +280,7 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                     if (isset($_SESSION['searched_books'])) {
                         $ecd_books_data[] = $_SESSION['searched_books'];
                     } else {
-                        $adult_books_data[] = $books->getPublisherLevelBooks($publisher, "ADULT READER");
+                        $adult_books_data[] = $books->getAllLevelBooks("ADULT READER");
                     }
                     if (isset($_SESSION['no_adult_records']) AND $_SESSION['no_adult_records'] == true) {
                         ?>

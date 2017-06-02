@@ -1,4 +1,5 @@
 
+<?php require_once "core/template/header.php"; ?>
 <div id="mainBody">
     <div class="container">
         <div class="row">

@@ -105,8 +105,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                                             <div class="thumbnail">
                                                                 <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                                                 <div class="caption">
-<!--                                                                    <center><?php // echo $value2['title']; ?></center>
-                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id']; ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price']; ?></span>-->
+            <!--                                                                    <center><?php // echo $value2['title'];   ?></center>
+                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id'];   ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price'];   ?></span>-->
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -156,8 +156,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                                             <div class="thumbnail">
                                                                 <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                                                 <div class="caption">
-<!--                                                                    <center><?php // echo $value2['title']; ?></center>
-                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id']; ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price']; ?></span>-->
+            <!--                                                                    <center><?php // echo $value2['title'];   ?></center>
+                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id'];   ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price'];   ?></span>-->
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -208,8 +208,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                                             <div class="thumbnail">
                                                                 <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                                                 <div class="caption">
-<!--                                                                    <center><?php // echo $value2['title']; ?></center>
-                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id']; ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price']; ?></span>-->
+            <!--                                                                    <center><?php // echo $value2['title'];   ?></center>
+                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id'];   ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price'];   ?></span>-->
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -260,8 +260,8 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                                             <div class="thumbnail">
                                                                 <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                                                 <div class="caption">
-<!--                                                                    <center><?php // echo $value2['title']; ?></center>
-                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id']; ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price']; ?></span>-->
+            <!--                                                                    <center><?php // echo $value2['title'];   ?></center>
+                                                                    <a class="btn" href="?book_details&code=<?php // echo $value2['id'];   ?>">VIEW</a> <span class="pull-right"><?php // echo "KShs. " . $value2['price'];   ?></span>-->
                                                                 </div>
                                                             </div>
                                                         </li>
@@ -300,14 +300,20 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                             foreach ((array) $inner_array[$key] as $key2 => $value2) {
                                 $publisher_details = $users->fetchPublisherDetails($value2['publisher']);
 
+                                $url = "http://localhost/bookhive_ui/";
+//                              $url = "http://live_url/bookhive_ui/"; 
+
                                 if ($value2['level_id'] == 1) {
-                                    $location = 'modules/images/books/ecd/';
+                                    $location = 'modules/images/books/ecd/'; //'http://localhost/bookhive_ui/modules/images/books/ecd/';
                                 } else if ($value2['level_id'] == 2) {
-                                    $location = 'modules/images/books/primary/';
+                                    $location = 'modules/images/books/primary/'; //'http://localhost/bookhive_ui/modules/images/books/primary/';
+//                                    $location = 'modules/images/books/primary/';
                                 } else if ($value2['level_id'] == 3) {
-                                    $location = 'modules/images/books/secondary/';
+                                    $location = 'http://localhost/bookhive_ui/modules/images/books/secondary0/';
+//                                    $location = 'modules/images/books/secondary/';
                                 } else if ($value2['level_id'] == 4) {
-                                    $location = 'modules/images/books/adult/';
+                                    $location = 'http://localhost/bookhive_ui/modules/images/books/adult0/';
+//                                    $location = 'modules/images/books/adult/';
                                 }
                                 ?>
 
@@ -315,12 +321,12 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                     <input type="hidden" name="action" value="add"/>
                                     <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
-                                    <li class="span2">
+                                    <li class="span0">
                                         <div class="thumbnail">
                                             <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                             <div class="caption">
-<!--                                                <center><?php // echo $value2['title']; ?></center>
-                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price']; ?></a></h5>-->
+            <!--                                                <center><?php // echo $value2['title'];   ?></center>
+                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price'];   ?></a></h5>-->
                                             </div>
                                         </div>
                                     </li>
@@ -369,12 +375,12 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                     <input type="hidden" name="action" value="add"/>
                                     <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
-                                    <li class="span3">
+                                    <li class="span0">
                                         <div class="thumbnail">
                                             <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                             <div class="caption">
-<!--                                                <center><?php // echo $value2['title']; ?></center>
-                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price']; ?></a></h5>-->
+            <!--                                                <center><?php // echo $value2['title'];   ?></center>
+                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price'];   ?></a></h5>-->
                                             </div>
                                         </div>
                                     </li>
@@ -422,12 +428,12 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                     <input type="hidden" name="action" value="add"/>
                                     <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
-                                    <li class="span3">
+                                    <li class="span0">
                                         <div class="thumbnail">
                                             <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                             <div class="caption">
-<!--                                                <center><?php // echo $value2['title']; ?></center>
-                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price']; ?></a></h5>-->
+            <!--                                                <center><?php // echo $value2['title'];   ?></center>
+                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price'];   ?></a></h5>-->
                                             </div>
                                         </div>
                                     </li>
@@ -475,12 +481,12 @@ if (!empty($_POST) AND $_POST['action'] == "add") {
                                     <input type="hidden" name="action" value="add"/>
                                     <input type="hidden" name="code" value="<?php echo $value2['id']; ?>"/>
 
-                                    <li class="span2">
+                                    <li class="span0">
                                         <div class="thumbnail">
                                             <a  href="?book_details&code=<?php echo $value2['id']; ?>"><img src="<?php echo $location . $value2['cover_photo']; ?>" alt=""/></a>
                                             <div class="caption">
-<!--                                                <center><?php // echo $value2['title']; ?></center>
-                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price']; ?></a></h5>-->
+            <!--                                                <center><?php // echo $value2['title'];   ?></center>
+                                                <h5 style="text-align:center"> <div class="btn" type="submit" >Add to <i class="icon-shopping-cart"></i></div> <a class="btn btn-primary"> <?php // echo "KShs. " . $value2['price'];   ?></a></h5>-->
                                             </div>
                                         </div>
                                     </li>

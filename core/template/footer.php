@@ -12,6 +12,7 @@
 			 </div>
 			<div class="span3">
 				<h5>INFORMATION</h5> 
+                                <a href="?verify_book">VERIFY BOOK</a>
 				<a href="?faq">FAQs</a>
 				<a href="?tac">TERMS AND CONDITIONS</a>
 			 </div>

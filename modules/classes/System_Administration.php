@@ -514,7 +514,8 @@ class System_Administration extends Database {
         while ($row = $stmt->fetch()) {
             if (is_null($currentGroup)) {
                 $currentGroup = $row['name'];
-                $html .= "<option value=\"{$row['id']}\" selected>{$row['name']}</option>";
+                $html .= "<option value=\"111111111111\" selected>ALL BOOK TYPES</option>";
+                $html .= "<option value=\"{$row['id']}\">{$row['name']}</option>";
             } else {
                 $html .= "<option value=\"{$row['id']}\">{$row['name']}</option>";
             }
@@ -535,7 +536,7 @@ class System_Administration extends Database {
         while ($row = $stmt->fetch()) {
             if (is_null($currentGroup)) {
                 $currentGroup = $row['name'];
-                $html .= "<option value=\"0\" selected>Select Book Level</option>";
+//                $html .= "<option value=\"0\" selected>Select Book Level</option>";
                 $html .= "<option value=\"111111111111\">ALL BOOK LEVELS</option>";
                 $html .= "<option value=\"{$row['id']}\">{$row['name']}</option>";
             } else {
